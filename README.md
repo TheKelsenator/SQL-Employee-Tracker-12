@@ -1,9 +1,10 @@
 # Weekly Challenge: Twelve -
 
-## SQL Challenge: Employee Tracker
   <a href="https://choosealicense.com/licenses/mit">
   <img src="https://img.shields.io/badge/License-MIT-blue" />
   </a>
+
+## SQL Challenge: Employee Tracker
 
   University of Utah
   Full-Stack Web Development Coding Bootcamp
