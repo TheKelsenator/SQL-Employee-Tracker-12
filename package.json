@@ -1,0 +1,21 @@
+{
+  "name": "wide-mouth-mason-jar-12",
+  "version": "1.0.0",
+  "description": "<a href=\"https://choosealicense.com/licenses/mit\">\r   <img src=\"https://img.shields.io/badge/License-MIT-blue\" />\r   </a>",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheKelsenator/wide-mouth-mason-jar-12.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheKelsenator/wide-mouth-mason-jar-12/issues"
+  },
+  "homepage": "https://github.com/TheKelsenator/wide-mouth-mason-jar-12#readme"
+}
