@@ -2,6 +2,11 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 
+
+
+
+
+
 // console.table([
 //   {
 //     name: 'foo',
@@ -17,9 +22,6 @@ const cTable = require('console.table');
 // ----  ---
 // foo   10
 // bar   20
-
-
-
 
 
 
