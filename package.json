@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/TheKelsenator/wide-mouth-mason-jar-12/issues"
   },
-  "homepage": "https://github.com/TheKelsenator/wide-mouth-mason-jar-12#readme"
+  "homepage": "https://github.com/TheKelsenator/wide-mouth-mason-jar-12#readme",
+  "dependencies": {
+    "console.table": "^0.10.0"
+  }
 }
