@@ -1,5 +1,7 @@
 const inquirer = require('inquirer');
-const db = require('./db/connection');
+const cTable = require('console.table');
+
+const questionsArray = [];
 
 const questions = function () { 
   inquirer.prompt([
@@ -48,7 +50,7 @@ const questions = function () {
               return true;
             } else {
               console.log('Please give your new department a name!');
-              return false;
+              return questions();
             }
           }
       }]).then((answers) => {
@@ -241,7 +243,12 @@ const questions = function () {
   })
 };
 
+// const init = () => {
+//   questions();
+// }
 
+// init();
+questions();
 
 
 
@@ -250,130 +257,54 @@ const questions = function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const addRole = [
+// console.table([
 //   {
-//     name: 'newRole',
-//     type: 'input',
-//     message: 'What is the name of your new role?'
-//   },
-//   {
-//     name: salary,
-//     type: 'input',
-//     message: 'What salary does this role earn?'
-//   },
-//   {
-//     name: 'placement',
-//     type: 'list',
-//     message: 'What department would you like to add this role to?',
-//     choices: [
-
-//     ],
+//     name: 'foo',
+//     age: 10
+//   }, {
+//     name: 'bar',
+//     age: 20
 //   }
-//   // return: 'Added ___ to the database.'
-// ];
+// ]);
 
-// const addEmployee = [
-//   {
-//     name: 'newFirst',
-//     type: 'input',
-//     message: "What is the employee's first name?"
-//   },
-//   {
-//     name: 'newLast',
-//     type: 'input',
-//     message: "What is the employee's last name?"
-//   },
-//   {
-//     name: 'newEmployeeRole',
-//     type: 'input',
-//     message: "What is the employee's role?"
-//   },
-//   {
-//     name: 'employeeManager',
-//     type: 'input',
-//     message: "Who is the employee's manager?"
-//   }
-// ];
-
-// const updateEmployee = [
-//   {
-//     name: 'chooseEmployee',
-//     type: 'list',
-//     message: "Which employee's role do you want to update?",
-//     choices: [
-//       // How do I input the table of existing employee's here?
-//     ]
-//   },
-//   {
-//     name: 'assignNewRole',
-//     type: 'list',
-//     message: "Which role do you want to assign the selected employee?",
-//     choices: [
-//       // How do I input the table of existing roles?
-//     ]
-//   } 
-// ];
+// // prints
+// name  age
+// ----  ---
+// foo   10
+// bar   20
 
 
+
+// As the image illustrates, your schema should 
+// contain the following three tables:
+
+// department
+
+// id: INT PRIMARY KEY
+
+// name: VARCHAR(30) to hold department name
+
+// role
+
+// id: INT PRIMARY KEY
+
+// title: VARCHAR(30) to hold role title
+
+// salary: DECIMAL to hold role salary
+
+// department_id: INT to hold reference to 
+// department role belongs to
+
+// employee
+
+// id: INT PRIMARY KEY
+
+// first_name: VARCHAR(30) to hold employee first name
+
+// last_name: VARCHAR(30) to hold employee last name
+
+// role_id: INT to hold reference to employee role
+
+// manager_id: INT to hold reference to another 
+// employee that is the manager of the current employee 
+// (null if the employee has no manager)
