@@ -1,7 +1,51 @@
 const inquirer = require('inquirer');
+const db = require('./connection');
 const cTable = require('console.table');
 
-const questionsArray = [];
+function viewDepartment() {
+  const department = [];
+  db.query(`SELECT * FROM department`, (err, results) => {
+    if (err) throw err;
+    results.forEach((result) => {
+      department.push({
+        name: result.department_name,
+        value: result.id,
+      });
+    });
+  });
+  return department;
+};
+
+function viewRole() {
+  const role = [];
+  db.query(`SELECT * FROM roles`, (err, results) => {
+    if (err) throw err;
+    results.forEach((result) => {
+      role.push({ 
+        name: result.title, 
+        value: result.id, 
+      });
+    });
+  });
+  return role;
+};
+
+// Can't get a list of employee's to display under the prompted question. 
+// Was able to get it to work with viewing departments and roles, 
+// so I am confusion.... 
+function viewEmployee() {
+  const employee = [];
+  db.query(`SELECT * FROM employee`, (err, results) => {
+    if (err) throw err;
+    results.forEach((result) => {
+      employee.push({
+        name: result.first_name,
+        value: result.id,
+      });
+    });
+  });
+  return employee;
+};
 
 const questions = function () { 
   inquirer.prompt([
@@ -21,56 +65,54 @@ const questions = function () {
         ],
     }
   ]).then((answers) => {
-    if (answers.prompt === 'View all departments.') {
-      db.query(`SELECT * FROM department`, (err, result) => {
+    if (answers.initialOptions === 'View all departments.') {
+      db.query(`SELECT * FROM department`, function (err, result) {
         if (err) throw err;
         console.table(result);
-        questions();
+        return questions();
       });
-    } else if (answers.prompt === 'View all roles.') {
-      db.query(`SELECT * FROM role`, (err, result) => {
+    } else if (answers.initialOptions === 'View all roles.') {
+      db.query(`SELECT * FROM roles`, function (err, result) {
         if (err) throw err;
         console.table(result);
-        questions();
+        return questions();
       });
-    } else if (answers.prompt === "View all employee's.") {
-      db.query(`SELECT * FROM employee`, (err, result) => {
+    } else if (answers.initialOptions === "View all employee's.") {
+      db.query(`SELECT * FROM employee`, function (err, result) {
         if (err) throw err;
         console.table(result);
-        questions();
+        return questions();
       });
-    } else if (answers.prompt === 'Add a department.') {
+    } else if (answers.initialOptions === 'Add a department.') {
       inquirer.prompt([
         {
           name: 'newDepartment',
           type: 'input',
           message: 'What is the name of your new department?',
-          validate: departmentInput => {
-            if (departmentInput) {
+          validate: newDepartmentInput => {
+            if (newDepartmentInput) {
               return true;
             } else {
               console.log('Please give your new department a name!');
-              return questions();
+              questions();
             }
           }
-      }]).then((answers) => {
-        db.query(`INSERT INTO department (name) VALUES (?)`, [answers.department], (err, result) => {
+        }
+      ]).then((answers) => {
+        db.query(`INSERT INTO department (department_name) VALUES (?);`, [answers.newDepartment], (err, result) => {
           if (err) throw err;
-          console.log(`Added ${answers.department} to the database.`);
+          console.log(`Added ${answers.newDepartment} to the database.`);
           questions();
         });
       })
-    } else if (answers.prompt === 'Add a role.') {
-      db.query(`SELECT * FROM department`, (err, result) => {
-        if (err) throw err;
-        
+    } else if (answers.initialOptions === 'Add a role.') {
         inquirer.prompt([
           {
             name: 'newRole',
             type: 'input',
             message: 'What is the name of your new role?', 
-            validate: roleInput => {
-              if (roleInput) {
+            validate: newRoleInput => {
+              if (newRoleInput) {
                 return true;
               } else {
                 console.log('Please give your new role a name!')
@@ -95,30 +137,16 @@ const questions = function () {
             name: 'placement',
             type: 'list',
             message: 'What department would you like to add this role to?',
-            choices: () => {
-              var array = [];
-              for (var i = 0; i < result.length; i++) {
-                array.push(result[i].name);
-              } return array;  
-            }
+            choices: viewDepartment(),
           }
         ]).then((answers) => {
-            for (var i = 0; i < result.length; i++) {
-            if (result[i].name === answers.department) {
-              var department = result[i];
-            }
-          }
-          db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answers.newRole, answers.salary, department.id], (err, result) => {
+          db.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?);`, [answers.newRole, answers.salary, answers.placement], (err, result) => {
             if (err) throw err;
-            console.log(`Added ${answers.role} to the database.`)
-            questions();
+            console.log(`Added ${answers.newRole} to the database.`);
+            return questions();
           });
         })
-      });
-    } else if (answers.prompt === 'Add an employee.') {
-      db.query(`SELECT * FROM employee, role`, (err, result) => {
-        if (err) throw err;
-
+    } else if (answers.initialOptions === 'Add an employee.') {
         inquirer.prompt([
           {
             name: 'newFirst',
@@ -148,106 +176,57 @@ const questions = function () {
           },
           {
             name: 'newEmployeeRole',
-            type: 'input',
+            type: 'list',
             message: "What is the employee's role?", 
-            choices: () => {
-              var array = [];
-              for (var i = 0; i < result.length; i++) {
-                array.push(result[i].title);
-              }
-              var newArray = [...new Set(array)];
-              return newArray;
-            }
+            choices: viewRole(),
           },
-          {
-            name: 'employeeManager',
-            type: 'input',
-            message: "Who is the employee's manager?",
-            validate: managerInput => {
-              if (managerInput) {
-                return true;
-              } else {
-                console.log('Please assign this employee a manager!');
-                return false;
-              }
-            }
-          }
         ]).then((answers) => {
-          for (var i = 0; i < result.length; i++) {
-            if (result[i].title === answers.role) {
-              var role = result[i];
-            }
-          }
-          db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, [answers.newFirst, answers.newLast, answers.role.id, answers.manager.id], (err, result) => {
-            if (err) throw err;
+          db.query(`INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)`, [answers.newFirst, answers.newLast, answers.newEmployeeRole], (err, result) => {
             console.log(`Added ${answers.newFirst} ${answers.newLast} to the database.`)
             questions();
           });
-        })
-      });    
-    } else if (answers.prompt === 'Update an employee role.') {
-      db.query(`SELECT * FROM employee, role`, (err, result) => {
+        });    
+    } else if (answers.initialOptions === 'Update an employee role.') {
+      db.query(`SELECT * FROM employee`, (err, result) => {
         if (err) throw err;
-
         inquirer.prompt([
           {
             name: 'chooseEmployee',
             type: 'list',
             message: "Which employee's role do you want to update?",
-            choices: () => {
-              var array = [];
-              for (var i = 0; i < result.length; i++) {
-                array.push(result[i].last_name);
-              }
-              var employeeArray = [...new Set(array)];
-              return employeeArray;
-            }
+            choices: viewEmployee(),
           },
           {
             name: 'assignNewRole',
             type: 'list',
             message: "Which role do you want to assign the selected employee?",
-            choices: () => {
-              var array = [];
-              for (var i = 0; i < result.length; i++) {
-                array.push(result[i].title);
-              }
-              var newArray = [...new Set(array)];
-              return newArray;
-            }
+            choices: viewRole(),
           } 
         ]).then((answers) => {
-          for (var i = 0; i < result.length; i++) {
-            if (result[i].last_name === answers.employee) {
-              var name = result[i];
-            }
-          }
-          
-          for (var i = 0; i < result.length; i++) {
-            if (result[i].title === answers.role) {
-              var role = result[i];
-            }
-          }
-
-          db.query(`UPDATE employee SET ? WHERE ?`, [{role_id: role}, {last_name: name}], (err, result) => {
-            if (err) throw err;
+          db.query(`UPDATE employee SET role_id = ? WHERE id = ?;`, [answers.chooseEmployee, answers.assignNewRole], (err, result) => {
             console.log(`Updated ${answers.employee} role to the database.`)
             questions();
           });
-        })
+        });
       });
-    } else if (answers.prompt === "Nothing, I'm all done.") {
+    } else if (answers.initialOptions === "Nothing, I'm all done.") {
       db.end();
       console.log('Le Fin!');
     }
   })
 };
 
-// const init = () => {
-//   questions();
-// }
+// function init() {
+//   inquirer.prompt(questions).then((inquirerResponses) => {
+//     push.questionsArray('questions_db', inquirerResponses) => {
+//       console.table(result);
+//       questions();
+//     }
+//   });
+// };
 
 // init();
+
 questions();
 
 
@@ -272,39 +251,3 @@ questions();
 // ----  ---
 // foo   10
 // bar   20
-
-
-
-// As the image illustrates, your schema should 
-// contain the following three tables:
-
-// department
-
-// id: INT PRIMARY KEY
-
-// name: VARCHAR(30) to hold department name
-
-// role
-
-// id: INT PRIMARY KEY
-
-// title: VARCHAR(30) to hold role title
-
-// salary: DECIMAL to hold role salary
-
-// department_id: INT to hold reference to 
-// department role belongs to
-
-// employee
-
-// id: INT PRIMARY KEY
-
-// first_name: VARCHAR(30) to hold employee first name
-
-// last_name: VARCHAR(30) to hold employee last name
-
-// role_id: INT to hold reference to employee role
-
-// manager_id: INT to hold reference to another 
-// employee that is the manager of the current employee 
-// (null if the employee has no manager)
