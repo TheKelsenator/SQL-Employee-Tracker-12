@@ -182,19 +182,26 @@ const questions = function () {
           },
         ]).then((answers) => {
           db.query(`INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)`, [answers.newFirst, answers.newLast, answers.newEmployeeRole], (err, result) => {
-            console.log(`Added ${answers.newFirst} ${answers.newLast} to the database.`)
+            console.log(`Added ${answers.newFirst} ${answers.newLast} to the database.`);
             questions();
           });
         });    
     } else if (answers.initialOptions === 'Update an employee role.') {
       db.query(`SELECT * FROM employee`, (err, result) => {
+        let employees = result;
+        const employeeArray = employees.map((employee) => {
+          return {
+            name: employee.first_name,
+            value: employee.id,
+          }
+          });
         if (err) throw err;
         inquirer.prompt([
           {
             name: 'chooseEmployee',
             type: 'list',
             message: "Which employee's role do you want to update?",
-            choices: viewEmployee(),
+            choices: employeeArray,
           },
           {
             name: 'assignNewRole',
@@ -204,7 +211,7 @@ const questions = function () {
           } 
         ]).then((answers) => {
           db.query(`UPDATE employee SET role_id = ? WHERE id = ?;`, [answers.chooseEmployee, answers.assignNewRole], (err, result) => {
-            console.log(`Updated ${answers.employee} role to the database.`)
+            console.log(`Updated ${answers.chooseEmployee} role to the database.`)
             questions();
           });
         });
