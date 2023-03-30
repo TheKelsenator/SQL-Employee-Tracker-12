@@ -19,7 +19,6 @@
 
 - [User Story](#user)
 - [Acceptance Criteria](#acceptance)
-- [Usage](#usage)
 - [License](#license)
 - [Links](#links)
 - [Contribution](#contribution)
@@ -52,8 +51,6 @@
   * WHEN I choose to update an employee role
   * THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 
-## Usage
-
 ## License
 
   This project is licensed under the terms of the MIT license.
@@ -62,7 +59,7 @@
 
 ## Links
 
-  
+  https://drive.google.com/file/d/10WOC4nm-jze0X4SeZNlxZmk827zooBCb/view?usp=sharing
 
   https://github.com/TheKelsenator/wide-mouth-mason-jar-12
 
@@ -72,9 +69,7 @@
 
 ## Screenshots
 
- ![alt_text]()
- ![alt_text]()
- ![alt_text]()
+ ![alt_text](./images/Screenshot%20(46).png)
 
 ## Contact Me
 
