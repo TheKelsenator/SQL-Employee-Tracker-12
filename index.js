@@ -223,38 +223,4 @@ const questions = function () {
   })
 };
 
-// function init() {
-//   inquirer.prompt(questions).then((inquirerResponses) => {
-//     push.questionsArray('questions_db', inquirerResponses) => {
-//       console.table(result);
-//       questions();
-//     }
-//   });
-// };
-
-// init();
-
 questions();
-
-
-
-
-
-
-
-
-// console.table([
-//   {
-//     name: 'foo',
-//     age: 10
-//   }, {
-//     name: 'bar',
-//     age: 20
-//   }
-// ]);
-
-// // prints
-// name  age
-// ----  ---
-// foo   10
-// bar   20
