@@ -1,9 +1,5 @@
 # Weekly Challenge: Twelve -
 
-  <a href="https://choosealicense.com/licenses/mit">
-  <img src="https://img.shields.io/badge/License-MIT-blue" />
-  </a>
-
 ## SQL Challenge: Employee Tracker
 
   University of Utah
@@ -13,17 +9,16 @@
 
 ## Description
 
-  
+  The Employee Management System is a command-line application tailored for business owners to effortlessly organize and manage departments, roles, and employees. With a user-friendly interface, users can view, add, and update essential company information. The system provides options to view all departments, roles, and employees in neatly formatted tables. Adding new departments, roles, and employees is intuitive, with prompts for necessary details. Updating employee roles is seamless, ensuring accurate database records. Empowering business owners with efficient organization and planning capabilities, the Employee Management System optimizes business operations and productivity.  
 
 ## Table of Contents
 
-- [User Story](#user)
-- [Acceptance Criteria](#acceptance)
+- [User Story](#user-story)
+- [Acceptance Criteria](#acceptance-criteria)
 - [License](#license)
+- [Screenshot](#screenshot)
 - [Links](#links)
-- [Contribution](#contribution)
-- [Screenshots](#screenshots)
-- [Contact Me](#contact)
+- [Contact Me](#contact-me)
 
 ## User Story
 
@@ -55,22 +50,21 @@
 
   This project is licensed under the terms of the MIT license.
   [License Information](https://choosealicense.com/licenses/mit)
+  <br/>
+  <br/>
+  <a href="https://choosealicense.com/licenses/mit">
+  <img src="https://img.shields.io/badge/License-MIT-blue" />
+  </a>
 
-
-## Links
-
-  https://drive.google.com/file/d/10WOC4nm-jze0X4SeZNlxZmk827zooBCb/view?usp=sharing
-
-  https://github.com/TheKelsenator/wide-mouth-mason-jar-12
-
-## Contribution
-
-  Github [TheKelsenator](https://github.com/TheKelsenator)
-
-## Screenshots
+## Screenshot
 
  ![alt_text](./images/Screenshot%20(46).png)
 
+## Links
+
+  * Application Video Link: https://drive.google.com/file/d/10WOC4nm-jze0X4SeZNlxZmk827zooBCb/view?usp=sharing
+  * LinkedIn Profile: https://www.linkedin.com/in/kelsey-o-kelley-23057a20b/
+
 ## Contact Me
 
-  Email [km.okelley89@gmail.com](mailto:km.okelley89@gmail.com)
+  Feel free to reach out to me via email at km.okelley89@gmail.com or through my LinkedIn.
